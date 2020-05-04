@@ -1,10 +1,21 @@
 package com.shbtechno.springboot.payments_jpa;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /*
-   @Author: Shoheb
-   DTO method to store payment details
+   @Author      : Shoheb
+   Description  :    DTO method to store payment details
+   Annotations  :
+   @Entity      :   Identifies this as database entity class, class name as table name
+                    and all member variables should be treated as columns of the database
+   @Id          :   Field level annotation to tell the field is primary key in relational
+                    database table
 */
+@Entity
 public class Payments {
+
+    @Id
     private  String paymentID;
     private  String status;
     private  String direction;

@@ -4,9 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
-   @Author: Shoheb 
+   @Author      : Shoheb
+   Description  :
+   >>>>>>>>>>>>>>>>>>>>> Annotations >>>>>>>>>>>>>>>>>>>>>
+   @RestController  : Mark class as request handler and used to create RESTful webservices
+   @Autowired       : Get the instant of the bean/ Initialise the variable
+   @RequestMapping  : Map web service requests
+
 */
 @RestController
 public class PaymentsController {
@@ -20,8 +27,9 @@ public class PaymentsController {
     }
 
     //GET REQUEST WITH PARAMETER
+    /* Optional class return types is used it handles null and is the return type for crudRepository findByID method */
     @RequestMapping("/payments/{paymentID}")
-    public Payments getPayments(@PathVariable String paymentID){
+    public Optional<Payments> getPayments(@PathVariable String paymentID){
         return paymentServices.getPayments(paymentID);
     }
 

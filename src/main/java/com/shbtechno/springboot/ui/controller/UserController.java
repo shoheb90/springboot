@@ -8,6 +8,7 @@ package com.shbtechno.springboot.ui.controller;
    
  */
 
+import com.shbtechno.springboot.ui.model.request.UserDetailsRequest;
 import com.shbtechno.springboot.ui.model.response.UserRest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,9 +35,15 @@ public class UserController {
         return new ResponseEntity<UserRest> (userResponse,HttpStatus.OK);
     }
 
-    @PostMapping
-    public String createUser() {
-        return "create user details";
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+                produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserRest> createUser(@RequestBody UserDetailsRequest userDetailsRequest) {
+       UserRest userRest = new UserRest();
+       userRest.setFirstName(userDetailsRequest.getFirstName());
+       userRest.setLastName(userDetailsRequest.getLastName());
+       userRest.setEmail(userDetailsRequest.getEmail());
+        return new ResponseEntity<UserRest>(userRest,HttpStatus.CREATED);
     }
 
     @DeleteMapping

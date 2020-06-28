@@ -9,7 +9,9 @@ package com.shbtechno.springboot.ui.controller;
  */
 
 import com.shbtechno.springboot.ui.model.response.UserRest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,13 +26,12 @@ public class UserController {
     //Added Mediatype json and xml to return response in xml also if required
     @GetMapping(path = "/{userID}"
             ,produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public UserRest getUser(@PathVariable String userID) {
-
+    public ResponseEntity<UserRest> getUser(@PathVariable String userID) {
         UserRest userResponse = new UserRest();
         userResponse.setFirstName("Samrin");
         userResponse.setLastName("Inamdar");
         userResponse.setEmail("sss@gmail.com");
-        return userResponse;
+        return new ResponseEntity<UserRest> (userResponse,HttpStatus.OK);
     }
 
     @PostMapping

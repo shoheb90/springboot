@@ -9,6 +9,7 @@ package com.shbtechno.springboot.ui.controller;
  */
 
 import com.shbtechno.springboot.ui.model.response.UserRest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping
-    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page,@RequestParam(value = "limit", defaultValue = "30") int limit){
-        return "Get user was called with page "+ page + "and limit : "+limit;
+    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "30") int limit) {
+        return "Get user was called with page " + page + "and limit : " + limit;
     }
-    @GetMapping(path = "/{userID}")
-    public UserRest getUser(@PathVariable String userID){
+
+    //Added Mediatype json and xml to return response in xml also if required
+    @GetMapping(path = "/{userID}"
+            ,produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public UserRest getUser(@PathVariable String userID) {
 
         UserRest userResponse = new UserRest();
         userResponse.setFirstName("Samrin");
@@ -30,17 +34,17 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(){
+    public String createUser() {
         return "create user details";
     }
 
     @DeleteMapping
-    public String deleteUser(){
+    public String deleteUser() {
         return "delete user details";
     }
 
     @PutMapping
-    public String updateUser(){
+    public String updateUser() {
         return "update user details";
     }
 }

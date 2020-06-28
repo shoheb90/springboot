@@ -34,6 +34,11 @@
 			<artifactId>derby</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- To get xml format response in service response-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

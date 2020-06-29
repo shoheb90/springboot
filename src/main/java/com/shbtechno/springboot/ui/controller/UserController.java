@@ -15,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users") //http://localhost:8080/users
 public class UserController {
@@ -32,17 +34,19 @@ public class UserController {
         userResponse.setFirstName("Samrin");
         userResponse.setLastName("Inamdar");
         userResponse.setEmail("sss@gmail.com");
+
         return new ResponseEntity<UserRest> (userResponse,HttpStatus.OK);
     }
 
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
                 produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<UserRest> createUser(@RequestBody UserDetailsRequest userDetailsRequest) {
+    public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequest userDetailsRequest) {
        UserRest userRest = new UserRest();
        userRest.setFirstName(userDetailsRequest.getFirstName());
        userRest.setLastName(userDetailsRequest.getLastName());
        userRest.setEmail(userDetailsRequest.getEmail());
+       userRest.setPassword(userDetailsRequest.getPassword());
         return new ResponseEntity<UserRest>(userRest,HttpStatus.CREATED);
     }
 

@@ -8,11 +8,33 @@ package com.shbtechno.springboot.ui.model.request;
    
  */
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserDetailsRequest {
+    @NotNull(message = "FirstName should not be null")
+    @Size(min = 2,message = "Firstname should be more than 2 characters")
     private String firstName;
+
+    @NotNull(message = "LastName should not be null")
     private String lastName;
+
+    @NotNull(message = "Email should not be null")
+    @Email
     private String email;
 
+    @NotNull(message = "Password should not be null")
+    @Size(min = 6,max = 16,message = "Password size should be greater than 6 and less than 16 characters")
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstName() {
         return firstName;

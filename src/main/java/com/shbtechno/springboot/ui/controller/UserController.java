@@ -8,6 +8,7 @@ package com.shbtechno.springboot.ui.controller;
    
  */
 
+import com.shbtechno.springboot.ui.model.request.UpdateUserDetailsRequest;
 import com.shbtechno.springboot.ui.model.request.UserDetailsRequest;
 import com.shbtechno.springboot.ui.model.response.UserRest;
 import org.springframework.http.HttpStatus;
@@ -69,9 +70,15 @@ public class UserController {
 
 
     //******************************************* PUT *************************************************************
-    @PutMapping
-    public String updateUser() {
-        return "update user details";
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+                produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+                path = "/{userID}")
+    public UserRest updateUser(@PathVariable String userID,@Valid @RequestBody UpdateUserDetailsRequest updateUserDetailsRequest) {
+        UserRest storedUserDetails = users.get(userID);
+        storedUserDetails.setFirstName(updateUserDetailsRequest.getFirstName());
+        storedUserDetails.setLastName(updateUserDetailsRequest.getLastName());
+        users.put(userID,storedUserDetails);
+        return storedUserDetails;
     }
 
 

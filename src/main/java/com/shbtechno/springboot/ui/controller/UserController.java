@@ -16,11 +16,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users") //http://localhost:8080/users
 public class UserController {
 
+    //Temporary created map to store user details for PUT request
+    Map<String,UserRest> users;
+
+    //******************************************* GET *************************************************************
     @GetMapping
     public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "30") int limit) {
         return "Get user was called with page " + page + "and limit : " + limit;
@@ -30,15 +37,19 @@ public class UserController {
     @GetMapping(path = "/{userID}"
             ,produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserRest> getUser(@PathVariable String userID) {
-        UserRest userResponse = new UserRest();
-        userResponse.setFirstName("Samrin");
+        /*UserRest userResponse = new UserRest();
+        userResponse.setFirstName("Shoheb");
         userResponse.setLastName("Inamdar");
         userResponse.setEmail("sss@gmail.com");
-
-        return new ResponseEntity<UserRest> (userResponse,HttpStatus.OK);
+*/
+        if (users.containsKey(userID)){
+            return new ResponseEntity<>(users.get(userID),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
-
+    //******************************************* POST *************************************************************
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
                 produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequest userDetailsRequest) {
@@ -47,16 +58,28 @@ public class UserController {
        userRest.setLastName(userDetailsRequest.getLastName());
        userRest.setEmail(userDetailsRequest.getEmail());
        userRest.setPassword(userDetailsRequest.getPassword());
+
+       //Code to add value in map to store temporarily
+        String userID = UUID.randomUUID().toString();
+        userRest.setUserID(userID);
+        if (users==null) users = new HashMap<>();
+        users.put(userID,userRest);
         return new ResponseEntity<UserRest>(userRest,HttpStatus.CREATED);
     }
 
+
+    //******************************************* PUT *************************************************************
+    @PutMapping
+    public String updateUser() {
+        return "update user details";
+    }
+
+
+    //******************************************* DELETE *************************************************************
     @DeleteMapping
     public String deleteUser() {
         return "delete user details";
     }
 
-    @PutMapping
-    public String updateUser() {
-        return "update user details";
-    }
+
 }

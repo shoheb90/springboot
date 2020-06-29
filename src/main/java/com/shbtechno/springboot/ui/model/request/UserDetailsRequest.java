@@ -28,6 +28,16 @@ public class UserDetailsRequest {
     @Size(min = 6,max = 16,message = "Password size should be greater than 6 and less than 16 characters")
     private String password;
 
+    private String UserID;
+
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
     public String getPassword() {
         return password;
     }

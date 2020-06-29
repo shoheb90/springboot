@@ -13,6 +13,15 @@ public class UserRest {
     private String lastName;
     private String email;
     private String password;
+    private String UserID;
+
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
 
     public String getPassword() {
         return password;

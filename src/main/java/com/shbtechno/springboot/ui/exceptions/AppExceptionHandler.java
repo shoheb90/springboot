@@ -33,9 +33,9 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    //This method is an example to handle specific exception of null pointer
-    @ExceptionHandler(value = {NullPointerException.class})
-    public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest webRequest){
+    //This method is an example to handle specific exception of null pointer and multiple exception in single method
+    @ExceptionHandler(value = {NullPointerException.class,UserServiceException.class})
+    public ResponseEntity<Object> handleNullPointerException(Exception ex, WebRequest webRequest){
         String errorMessageDesc = ex.getLocalizedMessage();
         if (errorMessageDesc == null) errorMessageDesc = ex.toString();
 
@@ -45,7 +45,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     //This method is an example to handle custom own exceptions
-    @ExceptionHandler(value = {UserServiceException.class})
+    /*@ExceptionHandler(value = {UserServiceException.class})
     public ResponseEntity<Object> handleUserServiceException(UserServiceException ex, WebRequest webRequest){
         String errorMessageDesc = ex.getLocalizedMessage();
         if (errorMessageDesc == null) errorMessageDesc = ex.toString();
@@ -53,5 +53,6 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(new Date(),errorMessageDesc);
 
         return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
+
 }

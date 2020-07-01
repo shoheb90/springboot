@@ -8,6 +8,7 @@ package com.shbtechno.springboot.ui.controller;
    
  */
 
+import com.shbtechno.springboot.ui.exceptions.UserServiceException;
 import com.shbtechno.springboot.ui.model.request.UpdateUserDetailsRequest;
 import com.shbtechno.springboot.ui.model.request.UserDetailsRequest;
 import com.shbtechno.springboot.ui.model.response.UserRest;
@@ -38,11 +39,11 @@ public class UserController {
     @GetMapping(path = "/{userID}"
             ,produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserRest> getUser(@PathVariable String userID) {
-        /*UserRest userResponse = new UserRest();
-        userResponse.setFirstName("Shoheb");
-        userResponse.setLastName("Inamdar");
-        userResponse.setEmail("sss@gmail.com");
-*/
+       // String firstname=null;
+        //System.out.println(firstname.length());
+        //Throwing own custom user exception
+        //if (true) throw new UserServiceException("User service exception is thrown");
+
         if (users.containsKey(userID)){
             return new ResponseEntity<>(users.get(userID),HttpStatus.OK);
         }else{

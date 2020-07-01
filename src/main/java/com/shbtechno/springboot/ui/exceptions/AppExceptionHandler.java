@@ -22,8 +22,20 @@ import java.util.Date;
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
+    //This method will automatically trigger when ANY exception occurs
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object> handleAnyException(Exception ex, WebRequest webRequest){
+        String errorMessageDesc = ex.getLocalizedMessage();
+        if (errorMessageDesc == null) errorMessageDesc = ex.toString();
+
+        ErrorMessage errorMessage = new ErrorMessage(new Date(),errorMessageDesc);
+
+        return new ResponseEntity<>(errorMessage,new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    //This method is an example to handle specific exception of null pointer
+    @ExceptionHandler(value = {NullPointerException.class})
+    public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest webRequest){
         String errorMessageDesc = ex.getLocalizedMessage();
         if (errorMessageDesc == null) errorMessageDesc = ex.toString();
 

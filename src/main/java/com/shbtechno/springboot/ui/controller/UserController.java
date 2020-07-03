@@ -12,6 +12,8 @@ import com.shbtechno.springboot.ui.exceptions.UserServiceException;
 import com.shbtechno.springboot.ui.model.request.UpdateUserDetailsRequest;
 import com.shbtechno.springboot.ui.model.request.UserDetailsRequest;
 import com.shbtechno.springboot.ui.model.response.UserRest;
+import com.shbtechno.springboot.ui.userservice.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users") //http://localhost:8080/users
 public class UserController {
+
+    @Autowired
+    UserService userService;
 
     //Temporary created map to store user details for PUT request
     Map<String,UserRest> users;
@@ -55,17 +60,7 @@ public class UserController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
                 produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequest userDetailsRequest) {
-       UserRest userRest = new UserRest();
-       userRest.setFirstName(userDetailsRequest.getFirstName());
-       userRest.setLastName(userDetailsRequest.getLastName());
-       userRest.setEmail(userDetailsRequest.getEmail());
-       userRest.setPassword(userDetailsRequest.getPassword());
-
-       //Code to add value in map to store temporarily
-        String userID = UUID.randomUUID().toString();
-        userRest.setUserID(userID);
-        if (users==null) users = new HashMap<>();
-        users.put(userID,userRest);
+         UserRest userRest = userService.createUser(userDetailsRequest);
         return new ResponseEntity<UserRest>(userRest,HttpStatus.CREATED);
     }
 

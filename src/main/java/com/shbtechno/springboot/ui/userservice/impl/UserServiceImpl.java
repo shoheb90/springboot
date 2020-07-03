@@ -11,6 +11,8 @@ package com.shbtechno.springboot.ui.userservice.impl;
 import com.shbtechno.springboot.ui.model.request.UserDetailsRequest;
 import com.shbtechno.springboot.ui.model.response.UserRest;
 import com.shbtechno.springboot.ui.userservice.UserService;
+import com.shbtechno.springboot.ui.utilities.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,6 +23,12 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     public Map<String,UserRest> users;
+    Utils utils;
+    //This is autowired for constructor based dependency injection
+    @Autowired
+    public UserServiceImpl(Utils utils){
+        this.utils = utils;
+    }
 
     @Override
     public UserRest createUser(UserDetailsRequest userDetailsRequest) {
@@ -31,7 +39,7 @@ public class UserServiceImpl implements UserService {
         userRest.setPassword(userDetailsRequest.getPassword());
 
         //Code to add value in map to store temporarily
-        String userID = UUID.randomUUID().toString();
+        String userID = utils.getUserID();
         userRest.setUserID(userID);
         if (users==null) users = new HashMap<>();
         users.put(userID,userRest);
